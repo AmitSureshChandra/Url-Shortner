@@ -20,8 +20,9 @@ class UrlController {
 
     @PostMapping("/api/v1/routes")
     fun createRoute(@RequestBody dto: UrlCreateDto): ResponseEntity<RespMsg>{
-        urlMap[UUID.randomUUID().toString().subSequence(0,7).toString()] = dto.url.orEmpty()
-        return ResponseEntity.ok(RespMsg("OK"));
+        var shortUrl: String = UUID.randomUUID().toString().subSequence(0,7).toString();
+        urlMap[shortUrl] = dto.url.orEmpty()
+        return ResponseEntity.ok(RespMsg("https://url-shortner-00029.herokuapp.com/"+ shortUrl));
     }
 
     @GetMapping("/api/v1/routes")
