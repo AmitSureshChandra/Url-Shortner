@@ -20,6 +20,9 @@ class UrlController {
 
     @PostMapping("/api/v1/routes")
     fun createRoute(@RequestBody dto: UrlCreateDto): ResponseEntity<RespMsg>{
+        if(dto.url == null || dto.url.equals("")){
+            return ResponseEntity.badRequest().body(RespMsg("invalid url"));
+        }
         var shortUrl: String = UUID.randomUUID().toString().subSequence(0,7).toString();
         urlMap[shortUrl] = dto.url.orEmpty()
         return ResponseEntity.ok(RespMsg("https://url-shortner-00029.herokuapp.com/"+ shortUrl));
