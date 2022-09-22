@@ -42,4 +42,9 @@ class UrlController {
             httpServletResponse.setStatus(302);
         }
     }
+    
+    @GetMapping
+    fun home(): ResponseEntity<RespMsg>{
+        return ResponseEntity.ok(RespMsg("short url service"))
+    }
 }
