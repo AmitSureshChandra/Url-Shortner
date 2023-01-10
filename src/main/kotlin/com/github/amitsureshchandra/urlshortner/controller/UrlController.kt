@@ -22,24 +22,24 @@ class UrlController(val urlService: UrlService, val utilService: UrlUtils) {
 
     @PostMapping("/api/v1/routes")
     fun createRoute(@RequestBody dto: UrlCreateDto, httpServletRequest: HttpServletRequest): ResponseEntity<RespMsg>{
-        if(dto.url == null || dto.url == ""){
+        if(dto.url == ""){
             return ResponseEntity.badRequest().body(RespMsg("invalid url"));
         }
         return ResponseEntity.ok(RespMsg( utilService.getServerPath(httpServletRequest) + "/"+ urlService.saveUrl(dto)));
     }
 
     @GetMapping("/api/v1/routes")
-    fun getRoutes(): ResponseEntity<HashMap<String?, String?>>{
-        return ResponseEntity.ok(urlService.urlMap);
+    fun getRoutes(): ResponseEntity<HashMap<String, String>>{
+        return ResponseEntity.ok(urlService.getAllUrls());
     }
 
     @RequestMapping("/{url}")
-    fun redirect(@PathVariable @NotNull url:String?,  httpServletResponse: HttpServletResponse){
+    fun redirect(@PathVariable url:String,  httpServletResponse: HttpServletResponse){
         if(!urlService.urlMap.containsKey(url)){
-            httpServletResponse.setStatus(404);
+            httpServletResponse.status = 404;
         }else{
             httpServletResponse.setHeader("Location", urlService.urlMap[url]);
-            httpServletResponse.setStatus(302);
+            httpServletResponse.status = 302;
         }
     }
     
