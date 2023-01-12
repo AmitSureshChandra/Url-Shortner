@@ -5,11 +5,15 @@ import com.github.amitsureshchandra.urlshortner.dto.UrlCreateDto
 import com.github.amitsureshchandra.urlshortner.entity.UrlMap
 import org.springframework.stereotype.Service
 import java.util.*
+import javax.annotation.PostConstruct
 
 @Service
 class UrlService(val urlRepo: UrlRepo) {
 
     var urlMap: HashMap<String, String> = HashMap()
+
+    @PostConstruct
+    private fun init() = urlRepo.findAll().forEach { urlMap[it.shortUrl] = it.fullUrl }
 
     fun saveUrl(dto: UrlCreateDto): String {
         var shortUrl: String = UUID.randomUUID().toString().subSequence(0,7).toString()
