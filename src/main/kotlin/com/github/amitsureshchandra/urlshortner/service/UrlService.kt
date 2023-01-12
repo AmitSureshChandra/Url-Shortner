@@ -1,6 +1,6 @@
 package com.github.amitsureshchandra.urlshortner.service
 
-import com.github.amitsureshchandra.urlshortner.UrlRepo
+import com.github.amitsureshchandra.urlshortner.repo.UrlRepo
 import com.github.amitsureshchandra.urlshortner.dto.UrlCreateDto
 import com.github.amitsureshchandra.urlshortner.entity.UrlMap
 import org.springframework.stereotype.Service
