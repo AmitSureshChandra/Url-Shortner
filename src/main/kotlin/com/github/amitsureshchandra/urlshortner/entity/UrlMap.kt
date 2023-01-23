@@ -7,6 +7,7 @@ import javax.persistence.Entity
 import javax.persistence.GeneratedValue
 import javax.persistence.GenerationType
 import javax.persistence.Id
+import javax.persistence.ManyToOne
 
 @Entity
 data class UrlMap(
@@ -14,4 +15,7 @@ data class UrlMap(
     var fullUrl: String,
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO) var id: UUID?,
+
+    @ManyToOne
+    var user: User,
 )
