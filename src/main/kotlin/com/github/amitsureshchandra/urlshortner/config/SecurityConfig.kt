@@ -10,7 +10,7 @@ class SecurityConfig: WebSecurityConfigurerAdapter() {
     override fun configure(http: HttpSecurity) {
         http.cors()
             .and()
-            .authorizeRequests().antMatchers("/api/v1/**").authenticated()
+            .authorizeRequests().antMatchers("/api/**").authenticated()
             .and()
             .authorizeRequests().antMatchers("/**").permitAll()
             .and()
