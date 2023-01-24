@@ -2,9 +2,11 @@ package com.github.amitsureshchandra.urlshortner.controller
 
 import com.github.amitsureshchandra.urlshortner.dto.RespMsg
 import com.github.amitsureshchandra.urlshortner.dto.UrlCreateDto
+import com.github.amitsureshchandra.urlshortner.dto.UserUrl
 import com.github.amitsureshchandra.urlshortner.service.UrlService
 import com.github.amitsureshchandra.urlshortner.utils.UrlUtils
 import org.jetbrains.annotations.NotNull
+import org.springframework.cache.annotation.Cacheable
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
@@ -25,20 +27,20 @@ class UrlController(val urlService: UrlService, val utilService: UrlUtils) {
         if(dto.url == ""){
             return ResponseEntity.badRequest().body(RespMsg("invalid url"));
         }
-        return ResponseEntity.ok(RespMsg( utilService.getServerPath(httpServletRequest) + "/"+ urlService.saveUrl(dto)));
+        return ResponseEntity.ok(RespMsg( utilService.getServerPath(httpServletRequest) + "/"+ urlService.saveUrl(dto).shortUrl));
     }
 
     @GetMapping("/api/v1/routes")
-    fun getRoutes(): ResponseEntity<HashMap<String, String>>{
+    fun getRoutes(): ResponseEntity<List<UserUrl>>{
         return ResponseEntity.ok(urlService.getAllUrls());
     }
 
     @RequestMapping("/{url}")
     fun redirect(@PathVariable url:String,  httpServletResponse: HttpServletResponse){
-        if(!urlService.urlMap.containsKey(url)){
+        if(!urlService.containsKey(url)){
             httpServletResponse.status = 404;
         }else{
-            httpServletResponse.setHeader("Location", urlService.urlMap[url]);
+            httpServletResponse.setHeader("Location", urlService.getLongUrl(url));
             httpServletResponse.status = 302;
         }
     }
