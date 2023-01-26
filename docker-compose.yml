@@ -47,6 +47,8 @@ services:
       - DB_PASSWORD=${DB_PASSWORD}
       - KEYCLOAK_AUTH_URL=${KEYCLOAK_AUTH_URL}
       - KEYCLOAK_REALM=${KEYCLOAK_REALM}
+      - SERVER_PORT=${SERVER_PORT}
+      - REDIS_HOST=redis
     ports:
       - "8080:8080"
     volumes:
@@ -54,8 +56,19 @@ services:
     depends_on: 
       - db
       - keycloak
+      - redis
     networks:
       - mynet
+  redis:
+    image: "redis:alpine"
+    container_name: redis
+    ports:
+      - "6379:6379"
+    expose:
+      - "6379"
+    networks:
+      - mynet
+    
 networks:
   mynet:
     driver: bridge
