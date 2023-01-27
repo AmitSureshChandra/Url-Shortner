@@ -17,13 +17,14 @@ import org.springframework.web.bind.annotation.RestController
 import java.util.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import javax.validation.Valid
 import kotlin.collections.HashMap
 
 @RestController
 class UrlController(val urlService: UrlService, val utilService: UrlUtils) {
 
     @PostMapping("/api/v1/routes")
-    fun createRoute(@RequestBody dto: UrlCreateDto, httpServletRequest: HttpServletRequest): ResponseEntity<RespMsg>{
+    fun createRoute(@RequestBody @Valid dto: UrlCreateDto, httpServletRequest: HttpServletRequest): ResponseEntity<RespMsg>{
         if(dto.url == ""){
             return ResponseEntity.badRequest().body(RespMsg("invalid url"));
         }
