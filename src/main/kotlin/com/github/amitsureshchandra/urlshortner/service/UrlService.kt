@@ -17,11 +17,12 @@ import java.util.*
 class UrlService(val urlRepo: UrlRepo, val authUtil: AuthUtil, val userRepo: UserRepo, val urlUtil: UrlUtil, @Value("\${short-url-length}") var shortUrlLength: Int) {
 
     fun saveUrl(dto: UrlCreateDto): UrlMap {
-        return saveUrlDB(dto, urlUtil.createShortUrl(shortUrlLength))
+        return saveUrlDB(dto)
     }
 
-    fun saveUrlDB(dto: UrlCreateDto, shortUrl: String): UrlMap {
+    fun saveUrlDB(dto: UrlCreateDto): UrlMap {
         val authUser: User = authUtil.getAuthUser()
+        val shortUrl = if(dto.shortUrl == "") urlUtil.createShortUrl(shortUrlLength) else dto.shortUrl
         val urlMap = UrlMap(shortUrl, dto.url, null, authUser)
         authUser.urls.add(urlMap)
         userRepo.save(authUser)
