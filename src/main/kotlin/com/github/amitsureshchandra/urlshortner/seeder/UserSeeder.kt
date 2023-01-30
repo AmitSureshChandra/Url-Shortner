@@ -22,7 +22,6 @@ class UserSeeder(val userRepo: UserRepo) {
             "amit@example.com",
             "1234567890",
             null,
-            mutableListOf()
         )
         userRepo.save(user)
         print("User created")
