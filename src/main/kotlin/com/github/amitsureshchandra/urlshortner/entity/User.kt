@@ -12,7 +12,11 @@ class User(
 
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     var id: UUID?,
-
+){
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "user")
-    val urls: MutableList<UrlMap>
-)
+    private val urls: MutableList<UrlMap> = mutableListOf()
+
+    fun getUrls(): MutableList<UrlMap>{
+        return urls
+    }
+}
