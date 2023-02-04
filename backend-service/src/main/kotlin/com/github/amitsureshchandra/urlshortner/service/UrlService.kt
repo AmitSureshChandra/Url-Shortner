@@ -23,8 +23,8 @@ class UrlService(val urlRepo: UrlRepo, val authUtil: AuthUtil, val userRepo: Use
     fun saveUrlDB(dto: UrlCreateDto): UrlMap {
         val authUser: User = authUtil.getAuthUser()
         val shortUrl = if(dto.shortUrl == "") urlUtil.createShortUrl(shortUrlLength) else dto.shortUrl
-        val urlMap = UrlMap(shortUrl, dto.url, null, authUser)
-        authUser.urls.add(urlMap)
+        val urlMap = UrlMap(shortUrl, dto.url, authUser)
+        authUser.getUrls().add(urlMap)
         userRepo.save(authUser)
         return urlMap
     }

@@ -8,7 +8,7 @@ import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilde
 
 
 @Service
-class RouteBuilderUtil(val objectMapper: ObjectMapper, val keycloakMockUtil: KeycloakMockUtil) {
+class RouteBuilderUtil(val objectMapper: ObjectMapper) {
 
     fun setUp(builder: MockHttpServletRequestBuilder): MockHttpServletRequestBuilder {
         return builder.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
@@ -43,6 +43,7 @@ class RouteBuilderUtil(val objectMapper: ObjectMapper, val keycloakMockUtil: Key
     }
 
     private fun getToken(): String {
-        return keycloakMockUtil.getToken()
+//        return keycloakMockUtil.getToken()
+        return "";
     }
 }

@@ -3,11 +3,12 @@ package com.github.amitsureshchandra.urlshortner.seeder
 import com.github.amitsureshchandra.urlshortner.entity.UrlMap
 import com.github.amitsureshchandra.urlshortner.entity.User
 import com.github.amitsureshchandra.urlshortner.repo.UserRepo
+import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.stereotype.Service
 import javax.annotation.PostConstruct
 
 @Service
-class UserSeeder(val userRepo: UserRepo) {
+class UserSeeder(val userRepo: UserRepo, val passwordEncoder: PasswordEncoder) {
 
     @PostConstruct
     fun init(){
@@ -21,8 +22,7 @@ class UserSeeder(val userRepo: UserRepo) {
             "amit",
             "amit@example.com",
             "1234567890",
-            null,
-            mutableListOf()
+            passwordEncoder.encode("password"),
         )
         userRepo.save(user)
         print("User created")
