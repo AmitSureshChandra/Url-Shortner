@@ -11,6 +11,17 @@
 
 ## Routes suported
 
+###### POST /api/v1/auth/register
+- to register
+
+![image](https://user-images.githubusercontent.com/47358181/216750415-d8fcc4af-d703-4eda-b6d8-57c787f75a11.png)
+
+###### POST /api/v1/auth/login
+- to login
+
+![image](https://user-images.githubusercontent.com/47358181/216750437-22f3a704-5ba8-4787-9341-b1fc7a08b074.png)
+
+
 ###### POST /api/v1/routes
 - to save short url
 
