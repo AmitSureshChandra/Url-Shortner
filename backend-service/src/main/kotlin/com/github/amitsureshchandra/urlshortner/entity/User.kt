@@ -1,5 +1,6 @@
 package com.github.amitsureshchandra.urlshortner.entity
 
+import com.fasterxml.jackson.annotation.JsonProperty
 import java.util.*
 import javax.persistence.*
 
@@ -9,10 +10,20 @@ class User(
     var name: String,
     var email: String,
     var mobile: String,
-
+    @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
+    val password: String
+){
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
-    var id: UUID?,
+    private val id: UUID? = null
 
     @OneToMany(fetch = FetchType.LAZY, cascade = [CascadeType.ALL], mappedBy = "user")
-    val urls: MutableList<UrlMap>
-)
+    private val urls: MutableList<UrlMap> = mutableListOf()
+
+    fun getUrls(): MutableList<UrlMap>{
+        return urls
+    }
+
+    fun getPass(): String{
+        return password
+    }
+}
