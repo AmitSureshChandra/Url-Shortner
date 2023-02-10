@@ -12,7 +12,7 @@ services:
       - ${DB_PORT}:${DB_PORT}
     expose:
       - ${DB_PORT}
-    volumes: 
+    volumes:
       - db:/var/lib/postgresql/data
     networks:
       - mynet
@@ -26,19 +26,20 @@ services:
       PROXY_ADDRESS_FORWARDING: "true"
     image: jboss/keycloak
     expose:
-      - 8081
+      - ${KEYCLOAK_PORT}
     ports:
-      - "28080:8081"
+      - ${KEYCLOAK_PORT}:${KEYCLOAK_PORT}
     restart: unless-stopped
-    command: 
+    command:
       - "-b 0.0.0.0"
-      - "-Djboss.http.port=8081"
+      - "-Djboss.http.port=${KEYCLOAK_PORT}"
     networks:
       - mynet
 
-  url-shortner:
-    build: ./
-    container_name: url-shortner
+  backend-service:
+    container_name: url-shortner-backend-service
+    image: suraj362/url-shortner-backend-service:${build}
+    restart: unless-stopped
     environment:
       - DB_HOST=${DB_HOST}
       - DB_PORT=${DB_PORT}
@@ -52,8 +53,8 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./:/app
-    depends_on: 
+      - backendapp:/app
+    depends_on:
       - db
       - keycloak
       - redis
@@ -68,7 +69,20 @@ services:
       - "6379"
     networks:
       - mynet
-    
+  redirect-service:
+    container_name: url-shortner-redirect-service
+    image: suraj362/url-shortner-redirect-service:${build}
+    restart: unless-stopped
+    volumes:
+      - redirectapp:/app
+    depends_on:
+      - db
+      - keycloak
+      - redis
+      - backend-service
+    networks:
+      - mynet
+
 networks:
   mynet:
     driver: bridge
