@@ -1,6 +1,7 @@
 package com.github.amitsureshchandra.urlshortner
 
 import com.github.amitsureshchandra.urlshortner.dto.RespMsg
+import com.github.amitsureshchandra.urlshortner.exception.ValidationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.validation.FieldError
@@ -20,5 +21,10 @@ class ValidationAdvice {
             errors[fieldName] = errorMessage
         }
         return ResponseEntity(errors,HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler
+    fun validationAdvice(exception: ValidationException): ResponseEntity<RespMsg>{
+        return ResponseEntity(RespMsg(exception.message),HttpStatus.BAD_REQUEST)
     }
 }

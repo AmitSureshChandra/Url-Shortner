@@ -1,4 +1,4 @@
-package com.github.amitsureshchandra.urlshortner.service.util
+package com.github.amitsureshchandra.urlshortner.utils
 
 import com.github.amitsureshchandra.urlshortner.entity.User
 import com.github.amitsureshchandra.urlshortner.exception.NotFoundException
@@ -12,7 +12,7 @@ class AuthUtil(val userRepo: UserRepo) {
         return SecurityContextHolder.getContext().authentication.principal.toString()
     }
 
-    fun getAuthUser(): User{
+    fun getAuthUser(): User {
         return userRepo.findByEmail(getAuthEmail()) ?: throw NotFoundException("user not found")
     }
 }

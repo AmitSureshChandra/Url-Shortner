@@ -6,8 +6,8 @@ import com.github.amitsureshchandra.urlshortner.dto.UserUrl
 import com.github.amitsureshchandra.urlshortner.entity.UrlMap
 import com.github.amitsureshchandra.urlshortner.entity.User
 import com.github.amitsureshchandra.urlshortner.repo.UserRepo
-import com.github.amitsureshchandra.urlshortner.service.util.AuthUtil
-import com.github.amitsureshchandra.urlshortner.service.util.UrlUtil
+import com.github.amitsureshchandra.urlshortner.utils.AuthUtil
+import com.github.amitsureshchandra.urlshortner.utils.UrlUtil
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.cache.annotation.Cacheable
 import org.springframework.stereotype.Service
@@ -41,5 +41,10 @@ class UrlService(val urlRepo: UrlRepo, val authUtil: AuthUtil, val userRepo: Use
     @Cacheable(value = ["urls"], key = "#shortUrl")
     fun getLongUrl(shortUrl: String): String {
         return urlRepo.findLongUrlByShortUrl(shortUrl);
+    }
+
+    fun getAllUserUrls(): List<UserUrl>? {
+        println(authUtil.getAuthEmail())
+        return urlRepo.findAllUserShortUrlAndFullUrl();
     }
 }

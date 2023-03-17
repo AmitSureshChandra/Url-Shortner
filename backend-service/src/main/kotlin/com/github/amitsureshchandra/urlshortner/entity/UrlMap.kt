@@ -9,6 +9,6 @@ data class UrlMap(
     var fullUrl: String,
     @ManyToOne
     var user: User,
-){
+): BaseEntity() {
     @Id @GeneratedValue(strategy = GenerationType.AUTO) var id: UUID = UUID.randomUUID()
 }

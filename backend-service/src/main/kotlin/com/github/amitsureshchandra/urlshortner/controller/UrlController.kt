@@ -4,24 +4,15 @@ import com.github.amitsureshchandra.urlshortner.dto.RespMsg
 import com.github.amitsureshchandra.urlshortner.dto.UrlCreateDto
 import com.github.amitsureshchandra.urlshortner.dto.UserUrl
 import com.github.amitsureshchandra.urlshortner.service.UrlService
-import com.github.amitsureshchandra.urlshortner.utils.UrlUtils
-import org.jetbrains.annotations.NotNull
-import org.springframework.cache.annotation.Cacheable
+import com.github.amitsureshchandra.urlshortner.utils.UrlUtil
 import org.springframework.http.ResponseEntity
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PathVariable
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestBody
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
-import java.util.*
+import org.springframework.web.bind.annotation.*
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
-import kotlin.collections.HashMap
 
 @RestController
-class UrlController(val urlService: UrlService, val utilService: UrlUtils) {
+class UrlController(val urlService: UrlService, val utilService: UrlUtil) {
 
     @PostMapping("/api/v1/routes")
     fun createRoute(@RequestBody @Valid dto: UrlCreateDto, httpServletRequest: HttpServletRequest): ResponseEntity<RespMsg>{
@@ -34,6 +25,11 @@ class UrlController(val urlService: UrlService, val utilService: UrlUtils) {
     @GetMapping("/api/v1/routes")
     fun getRoutes(): ResponseEntity<List<UserUrl>>{
         return ResponseEntity.ok(urlService.getAllUrls());
+    }
+
+    @GetMapping("/api/v1/routes/users")
+    fun getUserRoutes(): ResponseEntity<List<UserUrl>>{
+        return ResponseEntity.ok(urlService.getAllUserUrls());
     }
 
     @RequestMapping("/{url}")

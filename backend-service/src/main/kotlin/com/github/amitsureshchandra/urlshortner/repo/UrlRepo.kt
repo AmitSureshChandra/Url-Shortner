@@ -12,6 +12,10 @@ interface UrlRepo : CrudRepository<UrlMap, UUID>{
 
     @Query("SELECT new com.github.amitsureshchandra.urlshortner.dto.UserUrl(u.shortUrl, u.fullUrl) FROM UrlMap u")
     fun findAllShortUrlAndFullUrl(): List<UserUrl>
+
+    @Query("SELECT new com.github.amitsureshchandra.urlshortner.dto.UserUrl(u.shortUrl, u.fullUrl) FROM UrlMap u")
+    fun findAllUserShortUrlAndFullUrl(): List<UserUrl>
+
     fun existsByShortUrl(shortUrl: String): Boolean
 
     @Query("SELECT u.fullUrl FROM UrlMap u WHERE u.shortUrl = :shortUrl")

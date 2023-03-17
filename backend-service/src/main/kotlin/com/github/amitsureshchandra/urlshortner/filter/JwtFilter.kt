@@ -2,11 +2,9 @@ package com.github.amitsureshchandra.urlshortner.filter
 
 import com.auth0.jwt.exceptions.JWTVerificationException
 import com.github.amitsureshchandra.urlshortner.service.UrlUserDetailService
-import com.github.amitsureshchandra.urlshortner.service.util.JwtUtil
+import com.github.amitsureshchandra.urlshortner.utils.JwtUtil
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
-import org.springframework.security.core.context.SecurityContext
 import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 import org.springframework.web.filter.OncePerRequestFilter
 import javax.servlet.FilterChain

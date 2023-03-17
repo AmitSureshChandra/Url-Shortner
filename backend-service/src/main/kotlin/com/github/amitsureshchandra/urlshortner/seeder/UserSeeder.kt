@@ -25,6 +25,15 @@ class UserSeeder(val userRepo: UserRepo, val passwordEncoder: PasswordEncoder) {
             passwordEncoder.encode("password"),
         )
         userRepo.save(user)
-        print("User created")
+        print("amit user created")
+
+        val user2 = User(
+            "suraj",
+            "suraj@example.com",
+            "1234567890",
+            passwordEncoder.encode("password"),
+        )
+        userRepo.save(user2)
+        print("suraj user created")
     }
 }
