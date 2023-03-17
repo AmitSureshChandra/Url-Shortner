@@ -122,6 +122,7 @@ export default {
           value: "shortUrl",
         },
         { text: "Full Url", value: "fullUrl" },
+        { text: "Visit Count", value: "cnt" },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       data: [],

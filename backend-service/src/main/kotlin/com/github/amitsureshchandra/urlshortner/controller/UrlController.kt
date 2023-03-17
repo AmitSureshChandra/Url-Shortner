@@ -7,6 +7,7 @@ import com.github.amitsureshchandra.urlshortner.service.UrlService
 import com.github.amitsureshchandra.urlshortner.utils.UrlUtil
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
+import java.util.UUID
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
@@ -22,10 +23,15 @@ class UrlController(val urlService: UrlService, val utilService: UrlUtil) {
         return ResponseEntity.ok(RespMsg( utilService.getServerPath(httpServletRequest) + "/"+ urlService.saveUrl(dto).shortUrl));
     }
 
-    @GetMapping("/api/v1/routes")
-    fun getRoutes(): ResponseEntity<List<UserUrl>>{
-        return ResponseEntity.ok(urlService.getAllUrls());
+    @DeleteMapping("/api/v1/routes/{urlId}")
+    fun deleteRoute(@PathVariable urlId: UUID) {
+        urlService.deleteUrl(urlId);
     }
+
+//    @GetMapping("/api/v1/routes")
+//    fun getRoutes(): ResponseEntity<List<UserUrl>>{
+//        return ResponseEntity.ok(urlService.getAllUrls());
+//    }
 
     @GetMapping("/api/v1/routes/users")
     fun getUserRoutes(): ResponseEntity<List<UserUrl>>{
@@ -33,10 +39,11 @@ class UrlController(val urlService: UrlService, val utilService: UrlUtil) {
     }
 
     @RequestMapping("/{url}")
-    fun redirect(@PathVariable url:String,  httpServletResponse: HttpServletResponse){
+    fun redirect(@PathVariable url:String,  httpServletResponse: HttpServletResponse, request: HttpServletRequest){
         if(!urlService.containsKey(url)){
             httpServletResponse.status = 404;
         }else{
+            urlService.storeAnalytics(url, request);
             httpServletResponse.setHeader("Location", urlService.getLongUrl(url));
             httpServletResponse.status = 302;
         }
