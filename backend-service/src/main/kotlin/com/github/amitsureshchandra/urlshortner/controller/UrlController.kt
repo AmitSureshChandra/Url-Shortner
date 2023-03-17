@@ -23,9 +23,9 @@ class UrlController(val urlService: UrlService, val utilService: UrlUtil) {
         return ResponseEntity.ok(RespMsg( utilService.getServerPath(httpServletRequest) + "/"+ urlService.saveUrl(dto).shortUrl));
     }
 
-    @DeleteMapping("/api/v1/routes/{urlId}")
-    fun deleteRoute(@PathVariable urlId: UUID) {
-        urlService.deleteUrl(urlId);
+    @DeleteMapping("/api/v1/routes/{shortUrl}")
+    fun deleteRoute(@PathVariable shortUrl: String) {
+        urlService.deleteUrl(shortUrl);
     }
 
 //    @GetMapping("/api/v1/routes")

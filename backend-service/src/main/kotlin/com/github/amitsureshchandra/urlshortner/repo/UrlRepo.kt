@@ -20,4 +20,6 @@ interface UrlRepo : CrudRepository<UrlMap, UUID>{
 
     @Query("SELECT u.fullUrl FROM UrlMap u WHERE u.shortUrl = :shortUrl")
     fun findLongUrlByShortUrl(shortUrl: String): String
+
+    fun deleteByShortUrl(uShort: String)
 }

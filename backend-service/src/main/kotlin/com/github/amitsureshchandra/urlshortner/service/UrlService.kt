@@ -18,6 +18,7 @@ import java.util.*
 import javax.servlet.ServletRequest
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
+import javax.transaction.Transactional
 
 @Service
 class UrlService(val urlRepo: UrlRepo, val authUtil: AuthUtil, val userRepo: UserRepo, val urlUtil: UrlUtil, @Value("\${short-url-length}") var shortUrlLength: Int, val urlHitRepo: UrlHitRepo) {
@@ -55,8 +56,9 @@ class UrlService(val urlRepo: UrlRepo, val authUtil: AuthUtil, val userRepo: Use
         return urlRepo.findAllUserShortUrlAndFullUrl(authUtil.getAuthEmail());
     }
 
-    fun deleteUrl(urlId: UUID) {
-        urlRepo.deleteById(urlId)
+    @Transactional
+    fun deleteUrl(shortUrl: String) {
+        urlRepo.deleteByShortUrl(shortUrl);
     }
 
     fun storeAnalytics(url: String, request: HttpServletRequest) {

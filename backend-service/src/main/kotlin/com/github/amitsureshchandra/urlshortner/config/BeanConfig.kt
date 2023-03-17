@@ -8,6 +8,7 @@ import org.springframework.web.client.RestTemplate
 import org.springframework.web.servlet.config.annotation.CorsRegistry
 
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
+import java.util.*
 
 @Configuration
 class BeanConfig {
@@ -30,7 +31,7 @@ class BeanConfig {
         println(frontendUrl)
         return object : WebMvcConfigurer {
             override fun addCorsMappings(registry: CorsRegistry) {
-                registry.addMapping("/**").allowedOrigins(frontendUrl)
+                registry.addMapping("/**").allowedOrigins(frontendUrl).allowedMethods("GET", "POST", "PUT", "DELETE")
             }
         }
     }

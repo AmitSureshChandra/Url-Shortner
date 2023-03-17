@@ -1,6 +1,5 @@
 package com.github.amitsureshchandra.urlshortner.seeder
 
-import com.github.amitsureshchandra.urlshortner.entity.UrlMap
 import com.github.amitsureshchandra.urlshortner.entity.User
 import com.github.amitsureshchandra.urlshortner.repo.UserRepo
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -16,24 +15,30 @@ class UserSeeder(val userRepo: UserRepo, val passwordEncoder: PasswordEncoder) {
     }
 
     private fun createUser() {
-        if(userRepo.existsUserByEmail("amit@example.com")) return
+        if(!userRepo.existsUserByEmail("amit@example.com"))
+        {
 
-        val user = User(
-            "amit",
-            "amit@example.com",
-            "1234567890",
-            passwordEncoder.encode("password"),
-        )
-        userRepo.save(user)
-        print("amit user created")
+            val user = User(
+                "amit",
+                "amit@example.com",
+                "1234567890",
+                passwordEncoder.encode("password"),
+            )
+            userRepo.save(user)
+            print("amit user created")
+        }
 
-        val user2 = User(
-            "suraj",
-            "suraj@example.com",
-            "1234567890",
-            passwordEncoder.encode("password"),
-        )
-        userRepo.save(user2)
-        print("suraj user created")
+        if(!userRepo.existsUserByEmail("suraj@example.com")){
+            val user2 = User(
+                "suraj",
+                "suraj@example.com",
+                "1234567890",
+                passwordEncoder.encode("password"),
+            )
+            userRepo.save(user2)
+            print("suraj user created")
+        }
+
+
     }
 }

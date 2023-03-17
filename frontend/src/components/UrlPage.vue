@@ -22,10 +22,15 @@
           :items="data"
           :loading="loading"
           :search="search"
+          :item-key="shortUrl"
       >
         <template slot="item.actions" slot-scope="{ item }">
           <v-btn color="primary" fab small>
             <v-icon small @click="copy(item)">mdi-content-copy</v-icon>
+          </v-btn>
+
+          <v-btn color="error" fab small>
+            <v-icon small @click="deleteUrl(item)">mdi-delete</v-icon>
           </v-btn>
         </template>
 
@@ -194,7 +199,24 @@ export default {
     },
     getHost(){
       return process.env.VUE_APP_API_URL+ "/"
+    },
+    deleteUrl(item) {
+      console.log({item})
+      this.loading = true
+      axios
+          .delete("/api/v1/routes/" + item.shortUrl)
+          .then(() => {
+            this.loadRoutes()
+          })
+          .catch((e) => {
+            console.log({ e });
+          })
+          .finally(() => {
+            this.loading = false;
+          });
+
     }
+
   }
 };
 

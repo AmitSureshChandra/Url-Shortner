@@ -1,6 +1,7 @@
 package com.github.amitsureshchandra.urlshortner.filter
 
 import com.auth0.jwt.exceptions.JWTVerificationException
+import com.github.amitsureshchandra.urlshortner.exception.NotFoundException
 import com.github.amitsureshchandra.urlshortner.service.UrlUserDetailService
 import com.github.amitsureshchandra.urlshortner.utils.JwtUtil
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
@@ -40,8 +41,15 @@ class JwtFilter(val urlUserDetailService: UrlUserDetailService, val jwtUtil: Jwt
             if(SecurityContextHolder.getContext().authentication == null) {
                 SecurityContextHolder.getContext().authentication = authToken
             }
-        }catch(exc: JWTVerificationException) {
-            response.sendError(HttpServletResponse.SC_BAD_REQUEST, "Invalid JWT token")
+        }
+        catch (exec: NotFoundException){
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid User")
+            return
+        }
+
+        catch(exc: JWTVerificationException) {
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid JWT token")
+            return
         }
 
         filterChain.doFilter(request, response);

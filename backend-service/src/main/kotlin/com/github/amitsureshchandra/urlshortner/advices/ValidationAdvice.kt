@@ -1,6 +1,7 @@
-package com.github.amitsureshchandra.urlshortner
+package com.github.amitsureshchandra.urlshortner.advices
 
 import com.github.amitsureshchandra.urlshortner.dto.RespMsg
+import com.github.amitsureshchandra.urlshortner.exception.NotFoundException
 import com.github.amitsureshchandra.urlshortner.exception.ValidationException
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
@@ -25,6 +26,16 @@ class ValidationAdvice {
 
     @ExceptionHandler
     fun validationAdvice(exception: ValidationException): ResponseEntity<RespMsg>{
+        return ResponseEntity(RespMsg(exception.message),HttpStatus.BAD_REQUEST)
+    }
+
+    @ExceptionHandler
+    fun authAdvice(exception: AccessDeniedException): ResponseEntity<RespMsg>{
+        return ResponseEntity(RespMsg(exception.message),HttpStatus.UNAUTHORIZED)
+    }
+
+    @ExceptionHandler
+    fun notFoundAdvice(exception: NotFoundException): ResponseEntity<RespMsg>{
         return ResponseEntity(RespMsg(exception.message),HttpStatus.BAD_REQUEST)
     }
 }
