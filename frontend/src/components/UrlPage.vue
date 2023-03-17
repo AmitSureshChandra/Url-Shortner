@@ -3,16 +3,6 @@
     <v-card>
       <v-card-title>
         Short Urls
-<!--        <v-btn-->
-<!--           -->
-<!--            color="blue-grey"-->
-<!--            class="ml-2 white&#45;&#45;text"-->
-<!--            small-->
-<!--            -->
-<!--            prepend-icon="mdi-cloud-upload"-->
-<!--        >-->
-<!--          Create New-->
-<!--        </v-btn>-->
         <v-btn class="ml-4"  small color="primary" @click="dialog = true" :loading="loading"
                :disabled="loading">
           <v-icon left>mdi-plus</v-icon>
@@ -37,10 +27,10 @@
           <v-btn color="primary" fab small>
             <v-icon small @click="copy(item)">mdi-content-copy</v-icon>
           </v-btn>
-<!--          <v-btn color="secondary" fab small>-->
-<!--            <v-icon small @click="deleteItem(item)">mdi-delete</v-icon>-->
-<!--          </v-btn>-->
+        </template>
 
+        <template slot="item.shortUrl" slot-scope="{ item }">
+          <a :href="getHost() + item.shortUrl" target="_blank"><span> {{ getHost() + item.shortUrl }}</span></a>
         </template>
       </v-data-table>
     </v-card>
@@ -69,6 +59,7 @@
                         required
                         :rules="rules"
                         v-model="shortUrl"
+                        :error-messages="errors.shortUrl"
                     ></v-text-field>
                   </v-col>
                   <v-col
@@ -81,6 +72,7 @@
                         :rules="rules"
                         hint="https://github.com/AmitSureshChandra"
                         v-model="fullUrl"
+                        :error-messages="errors.url"
                     ></v-text-field>
                   </v-col>
                 </v-row>
@@ -88,29 +80,14 @@
             </v-container>
             <small>*indicates required field</small>
             <br>
-            <strong style="color: red">{{ error }}</strong>
+<!--            <strong style="color: red">{{ error }}</strong>-->
           </v-card-text>
           <v-card-actions>
             <v-spacer></v-spacer>
-<!--            <v-btn-->
-<!--                variant="flat"-->
-<!--                color="error"-->
-<!--                -->
-<!--            >-->
-<!--              Close-->
-<!--            </v-btn>-->
-            <v-btn color="error" dark @click="dialog = false">
-              <v-icon left>mdi-delete</v-icon>
+            <v-btn color="error" small dark @click="cancelDialog">
               Cancel
             </v-btn>
-<!--            <v-btn-->
-<!--                variant="flat"-->
-<!--                color="secondary"-->
-<!--               -->
-<!--            >-->
-<!--              Save-->
-<!--            </v-btn>-->
-            <v-btn color="primary"  @click="saveUrl"
+            <v-btn color="primary" small @click="saveUrl"
                    :loading="loading">
               <v-icon left>mdi-content-save</v-icon>
               Save Changes
@@ -133,18 +110,18 @@ export default {
     return {
       search: "",
       error: "",
+      errors: {},
       shortUrl: "",
       fullUrl: "",
       loading: false,
       dialog: false,
       headers: [
         {
-          text: "shortUrl",
+          text: "Short URL",
           align: "start",
           value: "shortUrl",
         },
-        { text: "fullUrl", value: "fullUrl" },
-        { text: "CreatedAt", value: "created_at" },
+        { text: "Full Url", value: "fullUrl" },
         { text: 'Actions', value: 'actions', sortable: false },
       ],
       data: [],
@@ -175,7 +152,15 @@ export default {
           })
           .catch(e => {
             console.log({e})
-            this.error = e.response.data.msg
+            if(e.response.data.msg)
+              this.$swal(
+                  `${e.response.data.msg}! `,
+                  "",
+                  "error"
+              )
+
+            else
+              this.errors = e.response.data
           })
           .finally(() => {
             this.loading = false
@@ -198,7 +183,16 @@ export default {
           });
     },
     copy(item){
-      console.log(item)
+      console.log(item.shortUrl + " copied to clipboard")
+      navigator.clipboard.writeText(process.env.VUE_APP_API_URL + "/" + item.shortUrl)
+    },
+    cancelDialog(){
+      this.dialog = false
+      this.shortUrl = ""
+      this.fullUrl = ""
+    },
+    getHost(){
+      return process.env.VUE_APP_API_URL+ "/"
     }
   }
 };

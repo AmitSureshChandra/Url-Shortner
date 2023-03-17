@@ -6,9 +6,11 @@ import VueSweetalert2 from 'vue-sweetalert2';
 
 Vue.config.productionTip = false
 
+console.log(process.env.VUE_APP_API_URL)
+
 // axios.defaults.baseURL = "https://fitness-app-00029.herokuapp.com";
 
-axios.defaults.baseURL = "http://localhost:8081";
+axios.defaults.baseURL = process.env.VUE_APP_API_URL;
 
 Vue.use(VueSweetalert2);
 import 'sweetalert2/dist/sweetalert2.min.css';

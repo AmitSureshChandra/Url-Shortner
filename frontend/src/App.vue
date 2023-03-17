@@ -12,23 +12,6 @@
               Url Shortner </v-app-bar-title
             >
             <v-spacer />
-<!--            <v-btn-->
-<!--              :disabled="loading"-->
-<!--              right-->
-<!--              text-->
-<!--              class="primary float-right"-->
-<!--              @click="logout()"-->
-<!--            >-->
-<!--              Logout-->
-<!--              <v-progress-circular-->
-<!--                class="ml-1"-->
-<!--                v-if="loading === true"-->
-<!--                indeterminate-->
-<!--                :width="3"-->
-<!--                size="20"-->
-<!--                color="white"-->
-<!--              ></v-progress-circular>-->
-<!--            </v-btn>-->
 
             <v-menu offset-y class="ml-2">
               <template #activator="{ on }">
@@ -162,6 +145,7 @@ export default {
     },
     logout() {
       localStorage.clear();
+      axios.defaults.headers.Authorization = null
       this.auth = false;
 
       // this.loading = true;

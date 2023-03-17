@@ -5,6 +5,7 @@ import com.github.amitsureshchandra.urlshortner.dto.UrlCreateDto
 import com.github.amitsureshchandra.urlshortner.dto.UserUrl
 import com.github.amitsureshchandra.urlshortner.entity.UrlMap
 import com.github.amitsureshchandra.urlshortner.entity.User
+import com.github.amitsureshchandra.urlshortner.exception.ValidationException
 import com.github.amitsureshchandra.urlshortner.repo.UserRepo
 import com.github.amitsureshchandra.urlshortner.utils.AuthUtil
 import com.github.amitsureshchandra.urlshortner.utils.UrlUtil
@@ -17,6 +18,7 @@ import java.util.*
 class UrlService(val urlRepo: UrlRepo, val authUtil: AuthUtil, val userRepo: UserRepo, val urlUtil: UrlUtil, @Value("\${short-url-length}") var shortUrlLength: Int) {
 
     fun saveUrl(dto: UrlCreateDto): UrlMap {
+        if(urlRepo.existsByShortUrl(dto.shortUrl)) throw ValidationException("already exists with given short url");
         return saveUrlDB(dto)
     }
 
@@ -45,6 +47,6 @@ class UrlService(val urlRepo: UrlRepo, val authUtil: AuthUtil, val userRepo: Use
 
     fun getAllUserUrls(): List<UserUrl>? {
         println(authUtil.getAuthEmail())
-        return urlRepo.findAllUserShortUrlAndFullUrl();
+        return urlRepo.findAllUserShortUrlAndFullUrl(authUtil.getAuthEmail());
     }
 }
