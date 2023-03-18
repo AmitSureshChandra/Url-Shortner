@@ -26,4 +26,8 @@ class User(
     fun getPass(): String{
         return password
     }
+
+    fun getId(): UUID? {
+        return id;
+    }
 }

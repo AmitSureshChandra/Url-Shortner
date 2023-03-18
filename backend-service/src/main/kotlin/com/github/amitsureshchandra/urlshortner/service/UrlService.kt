@@ -6,6 +6,7 @@ import com.github.amitsureshchandra.urlshortner.dto.UserUrl
 import com.github.amitsureshchandra.urlshortner.entity.UrlHit
 import com.github.amitsureshchandra.urlshortner.entity.UrlMap
 import com.github.amitsureshchandra.urlshortner.entity.User
+import com.github.amitsureshchandra.urlshortner.exception.UnAuthException
 import com.github.amitsureshchandra.urlshortner.exception.ValidationException
 import com.github.amitsureshchandra.urlshortner.repo.UrlHitRepo
 import com.github.amitsureshchandra.urlshortner.repo.UserRepo
@@ -37,10 +38,10 @@ class UrlService(val urlRepo: UrlRepo, val authUtil: AuthUtil, val userRepo: Use
         return urlMap
     }
 
-//    @Override
-//    fun getAllUrls(): List<UserUrl> {
-//        return urlRepo.findAllShortUrlAndFullUrl();
-//    }
+    @Override
+    fun getAllUrls(): List<UserUrl> {
+        return urlRepo.findAllShortUrlAndFullUrl();
+    }
 
     fun containsKey(shortUrl: String): Boolean {
         return urlRepo.existsByShortUrl(shortUrl);
@@ -52,12 +53,13 @@ class UrlService(val urlRepo: UrlRepo, val authUtil: AuthUtil, val userRepo: Use
     }
 
     fun getAllUserUrls(): List<UserUrl>? {
-        println(authUtil.getAuthEmail())
         return urlRepo.findAllUserShortUrlAndFullUrl(authUtil.getAuthEmail());
     }
 
     @Transactional
     fun deleteUrl(shortUrl: String) {
+        val urlMap = urlRepo.findByShortUrl(shortUrl) ?: throw ValidationException("Not Found");
+        if(urlMap.user.email != authUtil.getAuthEmail()) throw UnAuthException("Unauthorized");
         urlRepo.deleteByShortUrl(shortUrl);
     }
 

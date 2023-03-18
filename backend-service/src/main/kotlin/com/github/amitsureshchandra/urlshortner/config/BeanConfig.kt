@@ -28,7 +28,6 @@ class BeanConfig {
 
     @Bean
     fun corsConfigurer(): WebMvcConfigurer? {
-        println(frontendUrl)
         return object : WebMvcConfigurer {
             override fun addCorsMappings(registry: CorsRegistry) {
                 registry.addMapping("/**").allowedOrigins(frontendUrl).allowedMethods("GET", "POST", "PUT", "DELETE")

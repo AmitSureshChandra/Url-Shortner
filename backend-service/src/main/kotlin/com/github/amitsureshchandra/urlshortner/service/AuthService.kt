@@ -8,6 +8,7 @@ import com.github.amitsureshchandra.urlshortner.exception.NotFoundException
 import com.github.amitsureshchandra.urlshortner.exception.ValidationException
 import com.github.amitsureshchandra.urlshortner.repo.UserRepo
 import com.github.amitsureshchandra.urlshortner.utils.JwtUtil
+import org.slf4j.LoggerFactory
 import org.springframework.security.authentication.AuthenticationManager
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken
 import org.springframework.security.core.AuthenticationException
@@ -21,13 +22,14 @@ class AuthService(
     val authenticationManager: AuthenticationManager,
     val passwordEncoder: PasswordEncoder
 ) {
+    val logger = LoggerFactory.getLogger(AuthService::class.java    )
     fun register(regDto: RegDto): MutableMap<String, Any> {
 
         // check if email already exists
-        if(userRepo.findByEmailOrName(regDto.email, regDto.userName).isPresent())
+        if(userRepo.findByEmailOrName(regDto.email!!, regDto.userName!!).isPresent())
             throw ValidationException("username or email already exists");
 
-        val user = User(regDto.userName, regDto.email, regDto.mobile, passwordEncoder.encode(regDto.password))
+        val user = User(regDto.userName, regDto.email, regDto.mobile!!, passwordEncoder.encode(regDto.password))
         userRepo.save(user)
         val map = mutableMapOf<String, Any>()
         map["jwt-token"] = jwtUtil.generateToken(user.email)
@@ -37,7 +39,7 @@ class AuthService(
 
     fun login(loginCredentials: LoginCredentials): MutableMap<String, Any> {
         try {
-            val authToken = UsernamePasswordAuthenticationToken(loginCredentials.email, loginCredentials.password)
+            val authToken = UsernamePasswordAuthenticationToken(loginCredentials.email!!, loginCredentials.password!!)
             authenticationManager.authenticate(authToken)
             val user = userRepo.findByEmail(loginCredentials.email) ?: throw NotFoundException("user not found")
             val map = mutableMapOf<String, Any>()
@@ -45,7 +47,7 @@ class AuthService(
             map["user"] = UserDto(user.email, user.name, user.mobile)
             return map
         }catch (exception: AuthenticationException) {
-            print(exception.message)
+            logger.error(exception.message)
             throw ValidationException("Invalid Login Credentials")
         }
     }
