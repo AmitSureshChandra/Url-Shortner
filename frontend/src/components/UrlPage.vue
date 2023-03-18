@@ -154,6 +154,7 @@ export default {
           .then(({data}) => {
             console.log({data})
             this.dialog = false
+            this.clearForm()
             this.loadRoutes()
           })
           .catch(e => {
@@ -194,6 +195,9 @@ export default {
     },
     cancelDialog(){
       this.dialog = false
+      this.clearForm()
+    },
+    clearForm(){
       this.shortUrl = ""
       this.fullUrl = ""
     },

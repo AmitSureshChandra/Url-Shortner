@@ -47,7 +47,7 @@ class UrlService(val urlRepo: UrlRepo, val authUtil: AuthUtil, val userRepo: Use
         return urlRepo.existsByShortUrl(shortUrl);
     }
 
-    @Cacheable(value = ["urls"], key = "#shortUrl")
+//    @Cacheable(value = ["urls"], key = "#shortUrl")
     fun getLongUrl(shortUrl: String): String {
         return urlRepo.findLongUrlByShortUrl(shortUrl);
     }

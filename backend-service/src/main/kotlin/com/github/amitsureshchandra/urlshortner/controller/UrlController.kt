@@ -2,19 +2,19 @@ package com.github.amitsureshchandra.urlshortner.controller
 
 import com.github.amitsureshchandra.urlshortner.dto.RespMsg
 import com.github.amitsureshchandra.urlshortner.dto.UrlCreateDto
+import com.github.amitsureshchandra.urlshortner.dto.UserDto
 import com.github.amitsureshchandra.urlshortner.dto.UserUrl
 import com.github.amitsureshchandra.urlshortner.service.UrlService
+import com.github.amitsureshchandra.urlshortner.service.UserService
 import com.github.amitsureshchandra.urlshortner.utils.UrlUtil
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation.*
-import java.util.UUID
 import javax.servlet.http.HttpServletRequest
 import javax.servlet.http.HttpServletResponse
 import javax.validation.Valid
 
 @RestController
-class UrlController(val urlService: UrlService, val utilService: UrlUtil) {
-
+class UrlController(val urlService: UrlService, val utilService: UrlUtil, val userService: UserService) {
     @PostMapping("/api/v1/routes")
     fun createRoute(@RequestBody @Valid dto: UrlCreateDto, httpServletRequest: HttpServletRequest): ResponseEntity<RespMsg>{
         if(dto.url == ""){
