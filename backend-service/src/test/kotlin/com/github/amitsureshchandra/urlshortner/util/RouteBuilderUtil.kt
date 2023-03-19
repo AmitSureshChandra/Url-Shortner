@@ -2,13 +2,14 @@ package com.github.amitsureshchandra.urlshortner.util
 
 import com.fasterxml.jackson.core.JsonProcessingException
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.github.amitsureshchandra.urlshortner.utils.JwtUtil
 import org.springframework.http.MediaType
 import org.springframework.stereotype.Service
 import org.springframework.test.web.servlet.request.MockHttpServletRequestBuilder
 
 
 @Service
-class RouteBuilderUtil(val objectMapper: ObjectMapper) {
+class RouteBuilderUtil(val objectMapper: ObjectMapper, val jwtUtil: JwtUtil) {
 
     fun setUp(builder: MockHttpServletRequestBuilder): MockHttpServletRequestBuilder {
         return builder.contentType(MediaType.APPLICATION_JSON).accept(MediaType.APPLICATION_JSON)
@@ -43,7 +44,6 @@ class RouteBuilderUtil(val objectMapper: ObjectMapper) {
     }
 
     private fun getToken(): String {
-//        return keycloakMockUtil.getToken()
-        return "";
+        return "Bearer " + jwtUtil.generateToken("amit@example.com");
     }
 }

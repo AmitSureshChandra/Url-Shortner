@@ -12,7 +12,7 @@ class User(
     var mobile: String,
     @JsonProperty(access = JsonProperty.Access.WRITE_ONLY)
     val password: String
-){
+): BaseEntity(){
     @Id @GeneratedValue(strategy = GenerationType.AUTO)
     private val id: UUID? = null
 
@@ -25,5 +25,9 @@ class User(
 
     fun getPass(): String{
         return password
+    }
+
+    fun getId(): UUID? {
+        return id;
     }
 }

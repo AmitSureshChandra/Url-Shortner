@@ -1,4 +1,4 @@
-package com.github.amitsureshchandra.urlshortner.service.util
+package com.github.amitsureshchandra.urlshortner.utils
 
 import com.auth0.jwt.JWT
 import com.auth0.jwt.algorithms.Algorithm
