@@ -1,7 +1,7 @@
 package com.github.amitsureshchandra.urlshortner.service
 
-import com.github.amitsureshchandra.urlshortner.dto.LoginCredentials
-import com.github.amitsureshchandra.urlshortner.dto.RegDto
+import com.github.amitsureshchandra.urlshortner.dto.request.LoginCredentials
+import com.github.amitsureshchandra.urlshortner.dto.request.RegDto
 import com.github.amitsureshchandra.urlshortner.dto.UserDto
 import com.github.amitsureshchandra.urlshortner.entity.User
 import com.github.amitsureshchandra.urlshortner.exception.NotFoundException

@@ -2,7 +2,7 @@ package com.github.amitsureshchandra.urlshortner.advices
 
 import com.fasterxml.jackson.databind.exc.UnrecognizedPropertyException
 import com.fasterxml.jackson.databind.exc.ValueInstantiationException
-import com.github.amitsureshchandra.urlshortner.dto.RespMsg
+import com.github.amitsureshchandra.urlshortner.dto.response.RespMsg
 import com.github.amitsureshchandra.urlshortner.exception.NotFoundException
 import com.github.amitsureshchandra.urlshortner.exception.ValidationException
 import org.slf4j.Logger

@@ -1,8 +1,7 @@
 package com.github.amitsureshchandra.urlshortner.controller
 
-import com.github.amitsureshchandra.urlshortner.dto.RespMsg
-import com.github.amitsureshchandra.urlshortner.dto.UrlCreateDto
-import com.github.amitsureshchandra.urlshortner.dto.UserDto
+import com.github.amitsureshchandra.urlshortner.dto.response.RespMsg
+import com.github.amitsureshchandra.urlshortner.dto.request.UrlCreateDto
 import com.github.amitsureshchandra.urlshortner.dto.UserUrl
 import com.github.amitsureshchandra.urlshortner.service.UrlService
 import com.github.amitsureshchandra.urlshortner.service.UserService

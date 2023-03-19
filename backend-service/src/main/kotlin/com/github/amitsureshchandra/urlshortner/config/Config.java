@@ -1,6 +1,5 @@
 package com.github.amitsureshchandra.urlshortner.config;
 
-import com.github.amitsureshchandra.urlshortner.utils.AuthUtil;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.domain.AuditorAware;
